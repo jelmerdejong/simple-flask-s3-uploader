@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Upload a File{% endblock %}
+
+{% block body %}
+  <main class="container py-5">
+    <div class="row justify-content-center align-items-center hero-shell">
+      <div class="col-12 col-lg-8 col-xl-7">
+        <section class="upload-panel p-4 p-md-5">
+          <p class="eyebrow mb-3">Flask 3.1 + S3</p>
+          <h1 class="display-4 fw-bold display-tight mb-3">Upload files to Amazon S3 with a modern Flask app.</h1>
+          <p class="lead mb-4">The app uses an app factory, CSRF-protected forms, and lazy S3 clients so local development and tests stay predictable.</p>
+
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              <div class="mb-4">
+                {% for category, message in messages %}
+                  <div class="alert alert-{{ category }} mb-2" role="alert">{{ message }}</div>
+                {% endfor %}
+              </div>
+            {% endif %}
+          {% endwith %}
+
+          {% if uploaded_url %}
+            <div class="alert alert-success mb-4" role="status">
+              <strong>Latest upload:</strong>
+              <a class="alert-link" href="{{ uploaded_url }}" target="_blank" rel="noopener noreferrer">{{ uploaded_url }}</a>
+            </div>
+          {% endif %}
+
+          <form action="{{ url_for('main.upload') }}" method="post" enctype="multipart/form-data" novalidate>
+            {{ form.hidden_tag() }}
+            <div class="mb-3">
+              <label class="form-label fw-semibold" for="{{ form.user_file.id }}">{{ form.user_file.label.text }}</label>
+              {{ form.user_file(class_="form-control form-control-lg" + (" is-invalid" if form.user_file.errors else "")) }}
+              {% if form.user_file.errors %}
+                <div class="invalid-feedback d-block">
+                  {% for error in form.user_file.errors %}
+                    <div>{{ error }}</div>
+                  {% endfor %}
+                </div>
+              {% else %}
+                <div class="form-text">Allowed extensions: {{ allowed_extensions | join(", ") }}</div>
+              {% endif %}
+            </div>
+
+            <div class="d-grid d-sm-flex gap-3 align-items-center">
+              {{ form.submit(class_="btn btn-primary btn-lg px-4") }}
+              <span class="text-body-secondary">Uploads are sent directly to your configured S3 bucket.</span>
+            </div>
+          </form>
+        </section>
+      </div>
+    </div>
+  </main>
+{% endblock %}
