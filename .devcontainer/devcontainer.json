@@ -6,8 +6,7 @@
       "version": "latest"
     }
   },
-  "updateContentCommand": "python -m pip install --upgrade pip uv",
-  "postCreateCommand": "uv sync --locked --group dev",
+  "postCreateCommand": "python -m pip install --upgrade pip uv && uv sync --locked --group dev",
   "containerEnv": {
     "FLASK_APP": "s3_uploader:create_app"
   },
