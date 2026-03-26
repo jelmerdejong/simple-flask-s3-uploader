@@ -40,7 +40,7 @@ This project intentionally stays database-free. There is no SQLAlchemy setup, no
 
 6. Open [http://127.0.0.1:5000](http://127.0.0.1:5000).
 
-The repository also keeps a compatibility shim in [`app.py`](/Users/jelmer/Documents/Projects/simple-flask-s3-uploader/app.py), so `flask --app app run` still works if you need it.
+The repository also keeps a compatibility shim in [`app.py`](app.py), so `flask --app app run` still works if you need it.
 
 ## Configuration
 
@@ -55,7 +55,7 @@ Real environment variables always win over `.env`.
 
 Supported settings:
 
-- `SECRET_KEY`: Flask session and CSRF signing key.
+- `SECRET_KEY`: Required outside tests for Flask session and CSRF signing.
 - `S3_BUCKET`: Destination bucket name.
 - `AWS_ACCESS_KEY_ID`: Preferred AWS access key setting.
 - `AWS_SECRET_ACCESS_KEY`: Preferred AWS secret key setting.

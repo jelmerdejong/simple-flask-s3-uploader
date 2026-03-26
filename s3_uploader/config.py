@@ -22,7 +22,7 @@ DEFAULT_CONFIG: dict[str, Any] = {
     "S3_ENDPOINT_URL": None,
     "S3_OBJECT_ACL": "public-read",
     "S3_PUBLIC_URL_BASE": None,
-    "SECRET_KEY": "dev-secret-key-change-me",
+    "SECRET_KEY": None,
     "TESTING": False,
     "WTF_CSRF_ENABLED": True,
 }

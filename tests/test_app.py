@@ -124,3 +124,14 @@ def test_environment_variable_overrides_dotenv(monkeypatch, tmp_path):
     )
 
     assert app.config["SECRET_KEY"] == "from-env"
+
+
+def test_create_app_requires_secret_key_outside_tests(monkeypatch):
+    monkeypatch.delenv("SECRET_KEY", raising=False)
+
+    try:
+        create_app({"LOAD_DOTENV": False})
+    except RuntimeError as exc:
+        assert "SECRET_KEY must be set" in str(exc)
+    else:
+        raise AssertionError("create_app should fail fast when SECRET_KEY is missing outside tests.")

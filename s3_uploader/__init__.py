@@ -24,6 +24,7 @@ def create_app(test_config: dict[str, Any] | None = None) -> Flask:
 
     load_environment_config(app)
     app.config.update(test_config)
+    _ensure_secret_key(app)
 
     init_extensions(app)
     app.extensions["storage_service"] = S3StorageService.from_app(app)
@@ -32,3 +33,16 @@ def create_app(test_config: dict[str, Any] | None = None) -> Flask:
 
     app.register_blueprint(bp)
     return app
+
+
+def _ensure_secret_key(app: Flask) -> None:
+    if app.config.get("SECRET_KEY"):
+        return
+
+    if app.config.get("TESTING"):
+        app.config["SECRET_KEY"] = "test-secret-key"
+        return
+
+    raise RuntimeError(
+        "SECRET_KEY must be set via the environment or .env before starting the application."
+    )
